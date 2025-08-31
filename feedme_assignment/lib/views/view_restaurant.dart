@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'view_bot_list_item.dart';
+import 'view_completed_order_list_item.dart';
+import 'view_order_list_item.dart';
 import '../domain/bot.dart';
 import '../domain/order.dart';
 import '../domain/restaurant.dart';
@@ -12,7 +15,7 @@ class ViewRestaurant extends StatelessWidget {
     return MaterialApp(
       title: "McDonald's (powered by FeedMe)",
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
       ),
       home: const ViewRestaurantState(title: "McDonald's (powered by FeedMe)"),
     );
@@ -66,61 +69,33 @@ class _MyHomePageState extends State<ViewRestaurantState> {
       ),
       body: Column(
         children: [
-          // Bots
           Text("BOTS"),
           Expanded(
             child: ListView.builder(
               itemCount: bots.length,
               itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    Expanded(
-                      child: ListTile(
-                        title: bots[index].order == null
-                            ? Text('Bot not processing order')
-                            : Text(
-                          'Bot processing order ${bots[index].order?.orderNo} ${bots[index].order?.orderType.name}',
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        _removeBot(bots[index]);
-                      },
-                      child: Text("Remove bot"),
-                    ),
-                  ],
+                return BotListItem(
+                  bot: bots[index],
+                  onRemove: () => _removeBot(bots[index]),
                 );
               },
             ),
           ),
-
-          // Pending Area
           Text("PENDING AREA"),
           Expanded(
             child: ListView.builder(
               itemCount: pendingOrders.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    'Pending Order ${pendingOrders[index].orderNo} ${pendingOrders[index].orderType.name} (${pendingOrders[index].state.name})',
-                  ),
-                );
+                return OrderListItem(order: pendingOrders[index]);
               },
             ),
           ),
-
-          // Completed Area
           Text("COMPLETED AREA"),
           Expanded(
             child: ListView.builder(
               itemCount: completedOrders.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    'Completed Order ${completedOrders[index].orderNo} ${completedOrders[index].orderType.name}',
-                  ),
-                );
+                return CompletedOrderListItem(order: completedOrders[index]);
               },
             ),
           ),
@@ -133,21 +108,42 @@ class _MyHomePageState extends State<ViewRestaurantState> {
             onPressed: () {
               _addBot();
             },
-            child: Text("Add bot"),
+            child: Center(child: Text(
+              "Add bot",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),),
           ),
           SizedBox(height: 10),
           FloatingActionButton(
             onPressed: () {
               _addOrder(OrderType.normal);
             },
-            child: Text("Add normal order"),
+            child: Text(
+              "Add normal order",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
           SizedBox(height: 10), // spacing
           FloatingActionButton(
             onPressed: () {
               _addOrder(OrderType.vip);
             },
-            child: Text("Add VIP order"),
+            child: Center(child: Text(
+              "Add VIP order",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),),
           ),
           SizedBox(height: 10), // sp
         ],
