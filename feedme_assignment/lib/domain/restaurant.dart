@@ -22,7 +22,7 @@ class Restaurant {
   void addBot() {
     Bot bot = Bot(orderQueue: orderQueue, onCompleted: onCompleted);
     bots.add(bot);
-    notifyBots();
+    bot.notify();
   }
 
   void removeBot(Bot bot) {
