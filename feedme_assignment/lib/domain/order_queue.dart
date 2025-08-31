@@ -24,13 +24,20 @@ class OrderQueue {
   }
 
   bool hasNextOrder() {
-    return queue.isNotEmpty;
+    // Check if there are any unprocessed orders
+    return queue.any((order) {
+      return order.state == OrderState.unprocessed;
+    });
   }
 
   Order getNextOrder() {
-    if (queue.isEmpty) {
-      throw Exception("Tried to get order from an empty queue.");
+    if (!queue.any((order) {
+      return order.state == OrderState.unprocessed;
+    })) {
+      throw Exception("No unprocessed orders.");
     };
-    return queue.removeAt(0);
+    return queue.firstWhere((order) {
+      return order.state == OrderState.unprocessed;
+    });
   }
 }

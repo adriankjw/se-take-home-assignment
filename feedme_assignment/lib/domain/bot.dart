@@ -31,6 +31,7 @@ class Bot {
         // This is a hack to simulate 10 seconds order processing
         timer = Timer(Duration(seconds: 10), () {
           order?.completeOrder();
+          orderQueue.queue.remove(order);
           order = null;
           state = BotState.idle;
           notify();
@@ -61,7 +62,6 @@ class Bot {
     timer?.cancel();
     if (order != null) {
       order?.releaseOrder();
-      orderQueue.addOrder(order!, onCompleted);
     }
   }
 }

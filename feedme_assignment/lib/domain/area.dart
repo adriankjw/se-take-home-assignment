@@ -27,6 +27,8 @@ class Area {
 
 class PendingArea extends Area {
   final OrderQueue orderQueue;
+  @override
+  List<Order> get orders => orderQueue.queue;
 
   PendingArea({
     required super.areaName,
@@ -37,18 +39,5 @@ class PendingArea extends Area {
   @override
   void addOrder(Order order, Function? onCompleted) {
     orderQueue.addOrder(order, onCompleted);
-    switch (order.orderType) {
-      case OrderType.normal:
-        orders.add(order);
-        break;
-      case OrderType.vip:
-        int lastVipIndex = orders.lastIndexWhere((order) {
-          return order.orderType == OrderType.vip;
-        });
-        orders.insert(lastVipIndex + 1, order); // Insert vip order after last vip order
-        if (onCompleted != null) {
-          onCompleted();
-        }
-    }
   }
 }
