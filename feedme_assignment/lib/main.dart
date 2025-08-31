@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  // TODO: Use state management library or ChangeNotifier. Did not implement here to avoid dependencies and keep things simple.
   void redrawUICallback() {
     setState(() {});
   }

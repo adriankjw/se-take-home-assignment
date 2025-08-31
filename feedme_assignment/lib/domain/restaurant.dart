@@ -43,7 +43,7 @@ class Restaurant {
     notifyBots();
   }
 
-  // TODO: Follow Observer pattern if more complex notifications are needed later
+  // TODO: Use Observer pattern if more complex notifications are needed later
   void notifyBots() {
     for (Bot bot in bots) {
       bot.notify();
